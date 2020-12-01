@@ -16,25 +16,25 @@ def read_input(datei):
 
 
 def generate_combinations(zahlen_liste):
-    combinations = itertools.combinations(zahlen_liste, 2)
+    combinations = itertools.combinations(zahlen_liste, 3)
     return combinations
 
 
 def check_sum(combinations, summe):
-    for a, b in combinations:
-        if a + b == summe:
-            return a, b
+    for a, b, c in combinations:
+        if a + b + c == summe:
+            return a, b, c
 
 
-def produkt_of_right_combinations(a, b):
-    return a * b
+def produkt_of_right_combinations(a, b, c):
+    return a * b * c
 
 
 def main():
     inhalt = convert_to_int(read_input(os.path.join(SKRIPTPFAD, "input_1_1")))
     combinations = generate_combinations(inhalt)
-    int_a, int_b = check_sum(combinations, 2020)
-    solution = produkt_of_right_combinations(int_a, int_b)
+    int_a, int_b, int_c = check_sum(combinations, 2020)
+    solution = produkt_of_right_combinations(int_a, int_b, int_c)
     print(solution)
 
 
