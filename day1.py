@@ -15,27 +15,37 @@ def read_input(datei):
     return inhalt
 
 
-def generate_combinations(zahlen_liste):
-    combinations = itertools.combinations(zahlen_liste, 3)
+def generate_combinations(zahlen_liste, r):
+    combinations = itertools.combinations(zahlen_liste, r)
     return combinations
 
 
 def check_sum(combinations, summe):
-    for a, b, c in combinations:
-        if a + b + c == summe:
-            return a, b, c
+    for combination in combinations:
+        if sum(combination) == summe:
+            return combination
 
 
-def produkt_of_right_combinations(a, b, c):
-    return a * b * c
+def produkt_of_right_combinations(combination):
+    ergebnis = 1
+    for zahl in combination:
+        ergebnis = ergebnis * zahl
+    return ergebnis
 
 
 def main():
     inhalt = convert_to_int(read_input(os.path.join(SKRIPTPFAD, "input_1_1")))
-    combinations = generate_combinations(inhalt)
-    int_a, int_b, int_c = check_sum(combinations, 2020)
-    solution = produkt_of_right_combinations(int_a, int_b, int_c)
-    print(solution)
+    # Day 1 Nr. 1
+    combinations = generate_combinations(inhalt, 2)
+    right_combination = check_sum(combinations, 2020)
+    solution = produkt_of_right_combinations(right_combination)
+    print(f"Solution auf Day 1 #1: {solution}")
+
+    # Day 1 Nr. 2
+    combinations = generate_combinations(inhalt, 3)
+    right_combination = check_sum(combinations, 2020)
+    solution = produkt_of_right_combinations(right_combination)
+    print(f"Solution auf Day 1 #2: {solution}")
 
 
 if __name__ == "__main__":
