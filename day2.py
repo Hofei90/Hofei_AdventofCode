@@ -38,7 +38,7 @@ def create_passwordlist(data):
     return passwordliste
 
 
-def check_passwords(passwords):
+def check_passwords_part1(passwords):
     counter = 0
     for pw in passwords:
         frequency = pw.password.count(pw.character)
@@ -47,12 +47,27 @@ def check_passwords(passwords):
     return counter
 
 
+def check_passwords_part2(passwords):
+    counter = 0
+    for pw in passwords:
+        if pw.password[pw.frequency_min - 1] == pw.character and pw.password[pw.frequency_max - 1] != pw.character:
+            counter += 1
+        elif pw.password[pw.frequency_min - 1] != pw.character and pw.password[pw.frequency_max - 1] == pw.character:
+            counter += 1
+    return counter
+
+
 def main():
-    # Day 2 Nr. 1
     inhalt = read_input(os.path.join(SKRIPTPFAD, "input_2_1"))
     passwords = create_passwordlist(inhalt)
-    right_passwords = check_passwords(passwords)
+
+    # Day 2 Nr. 1
+    right_passwords = check_passwords_part1(passwords)
     print(f"Solution auf Day 2 #1: {right_passwords}")
+
+    # Day 2 Nr. 1
+    right_passwords = check_passwords_part2(passwords)
+    print(f"Solution auf Day 2 #2: {right_passwords}")
 
 
 if __name__ == "__main__":
