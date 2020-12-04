@@ -124,7 +124,6 @@ def validation_hcl(hcl):
     return False
 
 
-
 def validation_ecl(ecl):
     valid_values = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
     if ecl in valid_values:
