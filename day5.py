@@ -20,7 +20,10 @@ class BinaryBoarding:
                 self.change_column(True)
             elif spell == "L":
                 self.change_column(False)
-        self.seat_id = self.rows[0] * 8 + self.columns[0]
+        try:
+            self.seat_id = self.rows[0] * 8 + self.columns[0]
+        except IndexError:
+            self.seat_id = 0
 
     def change_row(self, lower_upper):
         if lower_upper:
@@ -33,9 +36,6 @@ class BinaryBoarding:
             self.columns = get_upper_half(self.columns)
         else:
             self.columns = get_lower_half(self.columns)
-
-    def remove_seats(self):
-        self.rows = self.rows[1:-1]
 
 
 def read_input(datei):
@@ -63,13 +63,20 @@ def main():
     max_column = 8
     inhalt = read_input(os.path.join(SKRIPTPFAD, "input_5_1"))
     max_seat_id = 0
+    seat_ids = []
     for seat in inhalt:
         boarding = BinaryBoarding(max_row, max_column, seat)
         boarding.analyze_seat_id()
         max_seat_id = max(boarding.seat_id, max_seat_id)
+        seat_ids.append(boarding.seat_id)
     print(max_seat_id)
 
-
+    # Tag 5 #2
+    min_seat_id = min(seat_ids)
+    max_seat_id = max(seat_ids)
+    ids = [id_ for id_ in range(min_seat_id, max_seat_id + 1)]
+    my_id = set(ids) - set(seat_ids)
+    print(my_id)
 
 
 if __name__ == "__main__":
