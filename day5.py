@@ -20,10 +20,9 @@ class BinaryBoarding:
                 self.change_column(True)
             elif spell == "L":
                 self.change_column(False)
-        try:
-            self.seat_id = self.rows[0] * 8 + self.columns[0]
-        except IndexError:
-            self.seat_id = 0
+
+        self.seat_id = self.rows[0] * 8 + self.columns[0]
+
 
     def change_row(self, lower_upper):
         if lower_upper:
