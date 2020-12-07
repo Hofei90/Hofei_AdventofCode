@@ -10,7 +10,7 @@ def read_input(datei):
     return inhalt
 
 
-def read_group_answers(inhalt, part_1=False, part_2=False):
+def read_group_answers_1(inhalt):
     groups_answers = []
     answers = []
     for group_answer in inhalt:
@@ -19,14 +19,24 @@ def read_group_answers(inhalt, part_1=False, part_2=False):
             for answer in group_answer:
                 answers.append(answer)
         else:
-            if part_1:
-                groups_answers.append(set(answers))
-            elif part_2:
-                pass
-            else:
-                raise ValueError
+            groups_answers.append(set(answers))
             answers = []
     return groups_answers
+
+
+def read_group_answers_2(inhalt):
+    counters = []
+    antwort_set_1 = {chr(i) for i in range(ord("a"), ord("z") + 1)}
+    for gruppen_antwort in inhalt:
+        gruppen_antwort = gruppen_antwort.strip()
+        if gruppen_antwort:
+            antwort_set_2 = {antwort for antwort in gruppen_antwort}
+            if len(antwort_set_2) > 0:
+                antwort_set_1 = antwort_set_1 & antwort_set_2
+        else:
+            counters.append(len(antwort_set_1))
+            antwort_set_1 = {chr(i) for i in range(ord("a"), ord("z") + 1)}
+    return counters
 
 
 def count_answers(groups_answers):
@@ -38,13 +48,12 @@ def count_answers(groups_answers):
 
 def main():
     inhalt = read_input(os.path.join(SKRIPTPFAD, "input_6_1"))
-    groups_answers = read_group_answers(inhalt, part_1=True)
+    groups_answers = read_group_answers_1(inhalt)
     counters = count_answers(groups_answers)
-    print(f"Solution of Day 1 #1: {sum(counters)}")
+    print(f"Solution of Day 6 #1: {sum(counters)}")
 
-    groups_answers = read_group_answers(inhalt, part_2=True)
-    counters = count_answers(groups_answers)
-    print(f"Solution of Day 1 #2: {sum(counters)}")
+    counters = read_group_answers_2(inhalt)
+    print(f"Solution of Day 6 #2: {sum(counters)}")
 
 
 if __name__ == "__main__":
