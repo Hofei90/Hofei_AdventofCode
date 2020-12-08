@@ -1,5 +1,6 @@
 import os
 import copy
+import datetime
 
 SKRIPTPFAD = os.path.abspath(os.path.dirname(__file__))
 
@@ -80,6 +81,7 @@ def main():
     print(f"Lösung Teil 1, Accumulator: {bootloader.accumulator}")
 
     anweisungsvariationen = repair_bootloader(anweisungen)
+    print(f"Anzahl an Anweisungsvariationen: {len(anweisungsvariationen)}")
     for anweisungen in anweisungsvariationen:
         infinity_guard = InfinityGuard(anweisungen)
         bootloader = Bootloader(anweisungen, infinity_guard)
@@ -92,4 +94,7 @@ def main():
 
 
 if __name__ == "__main__":
+    start = datetime.datetime.now()
     main()
+    ende = datetime.datetime.now()
+    print(f"Dauer der Ausführung von Teil 1 und 2 Gesamt: {(ende - start).total_seconds()} Sekunden")
