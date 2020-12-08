@@ -23,7 +23,6 @@ class BinaryBoarding:
 
         self.seat_id = self.rows[0] * 8 + self.columns[0]
 
-
     def change_row(self, lower_upper):
         if lower_upper:
             self.rows = get_upper_half(self.rows)
