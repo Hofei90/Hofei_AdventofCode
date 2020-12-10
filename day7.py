@@ -54,7 +54,6 @@ def search_right_bag(search_bag, contain_bags, bags):
     for bag in contain_bags:
         if bags[bag] is None:
             continue
-        print(bags[bag].keys())
         # ja der Rucksack kann aufgenommen werden
         if search_bag in bags[bag].keys():
             return True
@@ -72,7 +71,6 @@ def count_right_bag(search_bag, bags):
     for relevanter_bag in bags:
         # Nur Rucksäcke betrachten, die Rucksäcke aufnehmen können
         if not bags[relevanter_bag] is None:
-            print(bags[relevanter_bag].keys())
             # Wenn der goldene Rucksack aufgenommen werden kann, erhöhe den Zähler auf 1, ansonsten durchsuche
             # ob die enthaltenen Rucksäcke den goldenen Rucksack aufnehmen können
             if search_bag in bags[relevanter_bag].keys():
@@ -81,13 +79,28 @@ def count_right_bag(search_bag, bags):
                 if search_right_bag(search_bag, bags[relevanter_bag].keys(), bags):
                     counter += 1
 
-    print(counter)
+    return counter
+
+
+def calculate_individual_bags(contains_bags, bags, count_of_bags=1, sum_of_bags=None):
+    if sum_of_bags is None:
+        sum_of_bags = []
+    for bag, value in contains_bags.items():
+        sum_of_bags.append(count_of_bags * value)
+        if bags[bag] is not None:
+            sum_of_bags.extend(calculate_individual_bags(bags[bag], bags, count_of_bags * value))
+    return sum_of_bags
 
 
 def main():
     inhalt = read_input(os.path.join(SKRIPTPFAD, "input_7_1"))
     bags = create_rules(inhalt)
-    count_right_bag("shiny_gold", bags)
+    counter = count_right_bag("shiny_gold", bags)
+    print(f"Es können {counter} Beutel verwendet werden - Lösung Tag 7 Teil 1")
+
+    my_bag_contains = bags["shiny_gold"]
+    sum_idividual_bags = sum(calculate_individual_bags(my_bag_contains, bags))
+    print(f"Es werden {sum_idividual_bags} Beutel benötigt - Lösung Tag 7 Teil 2")
 
 
 if __name__ == "__main__":
