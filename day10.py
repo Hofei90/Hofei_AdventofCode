@@ -34,12 +34,26 @@ def check_adapters(manager, adapters):
         previous_adapter = adapter
 
 
+def search_variationen(adapters):
+    value = 0
+    cache = {0: 1}
+    for adapter in adapters:
+        value = 0
+        value += cache.get(adapter - 1, 0)
+        value += cache.get(adapter - 2, 0)
+        value += cache.get(adapter - 3, 0)
+        cache[adapter] = value
+    return value
+
+
 def main():
     adapters = read_input(os.path.join(SKRIPTPFAD, "input_10"))
     adapters.sort()
     jolt_manager = JoltManager()
     check_adapters(jolt_manager, adapters)
-    print((jolt_manager.number_jolts_three_different + 1) * jolt_manager.number_jolts_one_different)
+    print(f"Lösung Teil 1: {(jolt_manager.number_jolts_three_different + 1) * jolt_manager.number_jolts_one_different}")
+
+    print(f"Mögliche Adapterkombinationen: {search_variationen(adapters)} (Lösung Teil 2)")
 
 
 if __name__ == "__main__":
