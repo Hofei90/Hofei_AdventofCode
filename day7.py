@@ -49,30 +49,33 @@ def create_rules(rules):
 
 
 def search_right_bag(search_bag, contain_bags, bags):
+    # Durchsuche die Rücksäcke, ob ein Rucksack davon den goldenen Rucksack aufnehmen kann
+    # wenn ja gib True zurück, ansonsten False
     for bag in contain_bags:
         if bags[bag] is None:
-            return False
+            continue
         print(bags[bag].keys())
+        # ja der Rucksack kann aufgenommen werden
         if search_bag in bags[bag].keys():
             return True
         else:
+            # Wenn keiner den goldenen Rucksack aufnehmen kann, durchsuche, ob ein anderer Rucksack welcher enthalten ist
+            # den goldenen Rucksack aufnehmen kann
             if search_right_bag(search_bag, bags[bag].keys(), bags):
                 return True
     return False
 
 
 def count_right_bag(search_bag, bags):
+    """Zähle wie viele Rücksäcke meinen goldenen Rucksack aufnehmen können"""
     counter = 0
     for relevanter_bag in bags:
-        if bags[relevanter_bag] is None:
-            if search_bag == relevanter_bag:
-                counter += 1
-            continue
-        else:
+        # Nur Rucksäcke betrachten, die Rucksäcke aufnehmen können
+        if not bags[relevanter_bag] is None:
             print(bags[relevanter_bag].keys())
-            if search_bag == relevanter_bag:
-                counter += 1
-            elif search_bag in bags[relevanter_bag].keys():
+            # Wenn der goldene Rucksack aufgenommen werden kann, erhöhe den Zähler auf 1, ansonsten durchsuche
+            # ob die enthaltenen Rucksäcke den goldenen Rucksack aufnehmen können
+            if search_bag in bags[relevanter_bag].keys():
                 counter += 1
             else:
                 if search_right_bag(search_bag, bags[relevanter_bag].keys(), bags):
