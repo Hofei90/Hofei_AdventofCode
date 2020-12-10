@@ -1,4 +1,5 @@
 import os
+import datetime
 
 SKRIPTPFAD = os.path.abspath(os.path.dirname(__file__))
 
@@ -46,6 +47,22 @@ def search_variationen(adapters):
     return value
 
 
+def cpu_lastig_search_variationen(adapters, start=datetime.datetime.now(), variationen=0):
+    print(variationen)
+    print(f"Aktuelle Ausführungsdauer: {(datetime.datetime.now() - start).total_seconds()}")
+    for adapter in adapters:
+        if adapter + 1 in adapters:
+            variationen += 1
+            variationen = cpu_lastig_search_variationen(adapters[adapters.index(adapter + 1):], start, variationen)
+        if adapter + 2 in adapters:
+            variationen += 1
+            variationen = cpu_lastig_search_variationen(adapters[adapters.index(adapter + 2):], start, variationen)
+        if adapter + 3 in adapters:
+            variationen += 1
+            variationen = cpu_lastig_search_variationen(adapters[adapters.index(adapter + 3):], start, variationen)
+    return variationen
+
+
 def main():
     adapters = read_input(os.path.join(SKRIPTPFAD, "input_10"))
     adapters.sort()
@@ -54,6 +71,9 @@ def main():
     print(f"Lösung Teil 1: {(jolt_manager.number_jolts_three_different + 1) * jolt_manager.number_jolts_one_different}")
 
     print(f"Mögliche Adapterkombinationen: {search_variationen(adapters)} (Lösung Teil 2)")
+
+    print(f"Sollte der PC mal zu einem Ergebnis kommen, so lautet das Ergebnis der"
+          f"CPU lastigen Variante: {cpu_lastig_search_variationen(adapters)}")
 
 
 if __name__ == "__main__":
