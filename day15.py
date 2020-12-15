@@ -3,15 +3,15 @@ TURNS_1 = 2020
 TURNS_2 = 30000000
 
 
-def speak_number(speeched_numbers, number, turn):
+def speak_number(spoken_numbers, number, turn):
     try:
-        speeched_numbers[number].append(turn)
+        spoken_numbers[number].append(turn)
     except KeyError:
-        speeched_numbers[number] = [turn]
+        spoken_numbers[number] = [turn]
 
 
-def get_last_turns(speeched_numbers, last_number):
-    return speeched_numbers[last_number]
+def get_last_turns(spoken_numbers, last_number):
+    return spoken_numbers[last_number]
 
 
 def calc_next_number(last_rounds):
@@ -22,16 +22,16 @@ def calc_next_number(last_rounds):
 
 
 def play_game(startnumbers, max_turns):
-    speeched_numbers = {}
+    spoken_numbers = {}
     number = startnumbers[0]
     for turn in range(1, max_turns + 1):
         if turn <= len(startnumbers):
             number = startnumbers[turn - 1]
-            speak_number(speeched_numbers, number, turn)
+            speak_number(spoken_numbers, number, turn)
         else:
-            last_rounds = get_last_turns(speeched_numbers, number)
+            last_rounds = get_last_turns(spoken_numbers, number)
             number = calc_next_number(last_rounds)
-            speak_number(speeched_numbers, number, turn)
+            speak_number(spoken_numbers, number, turn)
     return number
 
 
