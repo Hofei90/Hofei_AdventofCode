@@ -1,7 +1,7 @@
-
 STARTNUMBERS = [8, 13, 1, 0, 18, 9]
 TURNS_1 = 2020
 TURNS_2 = 30000000
+
 
 def speak_number(speeched_numbers, number, turn):
     try:
