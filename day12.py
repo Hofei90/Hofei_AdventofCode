@@ -46,7 +46,7 @@ class Navigator:
         self.east_west += value
 
     def _go_west(self, value):
-        self.east_west += value
+        self.east_west -= value
 
 
 def get_direction_as_char(direction):
