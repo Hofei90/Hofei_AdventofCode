@@ -32,7 +32,7 @@ def main():
             last_rounds = get_last_turns(speeched_numbers, number)
             number = calc_next_number(last_rounds)
             speak_number(speeched_numbers, number, turn)
-    print(f"The 2020th number spoken is: {number})
+    print(f"The 2020th number spoken is: {number}")
 
 
 if __name__ == "__main__":
