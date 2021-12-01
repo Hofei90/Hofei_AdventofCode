@@ -19,9 +19,25 @@ def count_increasement(measurements):
     return increased
 
 
+def count_group_increasement(measurements):
+    increased = 0
+    end = 3
+    previos_value = None
+    for start, _ in enumerate(measurements):
+        value = sum(measurements[start:end])
+        if previos_value is None:
+            pass
+        elif value > previos_value:
+            increased += 1
+        previos_value = value
+        end += 1
+    return increased
+
+
 def main():
     measurements = utils.read_input(INPUT1)
     print(f"Rätsel 1_1: Ergebnis: {count_increasement(measurements)}")
+    print(f"Rätsel 1_2: Ergebnis: {count_group_increasement(measurements)}")
 
 
 if __name__ == "__main__":
