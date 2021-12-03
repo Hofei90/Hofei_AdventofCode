@@ -45,6 +45,5 @@ def main():
     print(f"Power Consumption: {calc_power_consumption(gamma_rate, epsilon_rate)}")
 
 
-
 if __name__ == "__main__":
     main()

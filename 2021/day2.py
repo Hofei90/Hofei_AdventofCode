@@ -1,8 +1,7 @@
-import utils
 from pathlib import Path
 
 SKRIPTPFAD = Path(__file__).parent
-INPUT1 = SKRIPTPFAD / "input_2_1.txt"
+INPUT1 = SKRIPTPFAD / "input_3_1.txt.txt"
 
 
 class BaseNavigator:
