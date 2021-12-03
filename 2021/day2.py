@@ -5,22 +5,17 @@ SKRIPTPFAD = Path(__file__).parent
 INPUT1 = SKRIPTPFAD / "input_2_1.txt"
 
 
-class Navigator:
-    def __init__(self, horizontal, tiefe):
+class BaseNavigator:
+    def __init__(self, horizontal=0, tiefe=0):
         self.horizontal = horizontal
         self.tiefe = tiefe
 
     def move(self, befehl):
-        cmd = befehl.split()
-        direction = cmd[0]
-        value = int(cmd[1])
-        if direction == "forward":
-            self.move_forward(value)
-        elif direction == "down":
-            self.move_down(value)
-        elif direction == "up":
-            self.move_up(value)
+        direction, value = befehl.split()
+        getattr(self, f"move_{direction}")(int(value))
 
+
+class Navigator(BaseNavigator):
     def move_forward(self, value):
         self.horizontal += value
 
@@ -31,22 +26,10 @@ class Navigator:
         self.tiefe -= value
 
 
-class Navigator2:
-    def __init__(self, horizontal, tiefe, ziel):
-        self.horizontal = horizontal
-        self.tiefe = tiefe
+class AimingNavigator(BaseNavigator):
+    def __init__(self, horizontal=0, tiefe=0, ziel=0):
+        BaseNavigator.__init__(self, horizontal, tiefe)
         self.ziel = ziel
-
-    def move(self, befehl):
-        cmd = befehl.split()
-        direction = cmd[0]
-        value = int(cmd[1])
-        if direction == "forward":
-            self.move_forward(value)
-        elif direction == "down":
-            self.move_down(value)
-        elif direction == "up":
-            self.move_up(value)
 
     def move_forward(self, value):
         self.horizontal += value
@@ -65,8 +48,8 @@ def calc_erg1(x, y):
 
 def main():
     planned_course = INPUT1.read_text().split("\n")
-    navigator = Navigator(0, 0)
-    navigator2 = Navigator2(0, 0, 0)
+    navigator = Navigator()
+    navigator2 = AimingNavigator()
     for cmd in planned_course:
         navigator.move(cmd)
         navigator2.move(cmd)
