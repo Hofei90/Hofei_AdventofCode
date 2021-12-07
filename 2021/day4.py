@@ -1,7 +1,7 @@
 from pathlib import Path
+from sys import exit
 
 SKRIPTPFAD = Path(__file__).parent
-INPUT_EXAMPLE = SKRIPTPFAD / "input_4_1_test.txt"
 INPUT1 = SKRIPTPFAD / "input_4_1.txt"
 
 
@@ -27,7 +27,6 @@ def setze_zahl(zahl, bingo_felder):
             for position in zeile:
                 if position[0] == zahl:
                     position[1] = True
-    return bingo_felder
 
 
 def create_gewinner_vertikal(index, bingo):
@@ -38,22 +37,19 @@ def create_gewinner_vertikal(index, bingo):
 
 
 def check_bingo_felder(bingo_felder):
-    for bingo_feld in bingo_felder:
+    for feld_nummer, bingo_feld in enumerate(bingo_felder):
         spalten = [True] * len(bingo_felder[0][0])
         for zeile in bingo_feld:
             if all(position[1] for position in zeile):
-                gewinner = [zahl[0] for zahl in zeile]
-                return bingo_feld, gewinner
+                return bingo_feld, feld_nummer
             for spalte, position in enumerate(zeile):
-                if not spalten[spalte] or not position[1]:
-                    spalten[spalte] = False
+                spalten[spalte] = spalten[spalte] and position[1]
         try:
-            gewinner_spalte = spalten.index(True)
+            _ = spalten.index(True)
         except ValueError:
             pass
         else:
-            gewinner = create_gewinner_vertikal(gewinner_spalte, bingo_feld)
-            return bingo_feld, gewinner
+            return bingo_feld, feld_nummer
     return None, None
 
 
@@ -73,11 +69,25 @@ def main():
     daten = daten[2:]
     bingo_felder = create_bingo_felder(daten)
     for zahl in zahlen:
-        bingo_felder = setze_zahl(int(zahl), bingo_felder)
-        bingo, gewinner = check_bingo_felder(bingo_felder)
+        setze_zahl(int(zahl), bingo_felder)
+        bingo, _ = check_bingo_felder(bingo_felder)
         if bingo is not None:
             print(calc_solution(bingo, [int(zahl)]))
             break
+
+    # Teil 2
+    bingo_felder = create_bingo_felder(daten)
+    for zahl in zahlen:
+        setze_zahl(int(zahl), bingo_felder)
+        bingo = False
+        while bingo is not None:
+            bingo, position_gewinner_feld = check_bingo_felder(bingo_felder)
+            if bingo is not None:
+                if len(bingo_felder) == 1:
+                    print(calc_solution(bingo, [int(zahl)]))
+                    exit(0)
+                else:
+                    bingo_felder.pop(position_gewinner_feld)
 
 
 if __name__ == "__main__":
